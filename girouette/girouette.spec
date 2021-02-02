@@ -1,6 +1,6 @@
 %global next_version 0.4.0
 %global baserelease 1
-%global pre_release 1
+%global pre_release 0
 
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
 
@@ -51,5 +51,8 @@ install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
 %doc README.md CHANGELOG.md
 
 %changelog
+* Tue Feb 02 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-1
+- girouette 0.4.0
+
 * Fri Jan 22 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-0.1
 - Initial package
