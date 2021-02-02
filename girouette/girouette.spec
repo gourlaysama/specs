@@ -1,5 +1,5 @@
 %global next_version 0.4.0
-%global baserelease 1
+%global baserelease 2
 %global pre_release 0
 
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
@@ -28,7 +28,7 @@ Source0: https://github.com/gourlaysama/girouette/archive/v%{version}.tar.gz
 %endif
 URL: https://github.com/gourlaysama/girouette
 
-BuildRequires: rust >= 1.45.0
+BuildRequires: rust >= 1.48.0
 BuildRequires: cargo
 BuildRequires: pkgconfig(dbus-1)
 BuildRequires: pkgconfig(openssl)
@@ -51,6 +51,9 @@ install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
 %doc README.md CHANGELOG.md
 
 %changelog
+* Tue Feb 02 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-2
+- fix rust MSRV: 1.48.0
+
 * Tue Feb 02 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-1
 - girouette 0.4.0
 
