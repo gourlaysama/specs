@@ -1,5 +1,5 @@
 %global next_version 0.4.1
-%global baserelease 1
+%global baserelease 2
 %global pre_release 0
 
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
@@ -44,11 +44,11 @@ env RUSTFLAGS="%{rust_flags}" cargo build --release
 
 %install
 install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
-install -Dpm0644 -t %{buildroot}/%{_datadir}/bash-completions/completions \
+install -Dpm0644 -t %{buildroot}%{_datadir}/bash-completions/completions \
   target/release/build/%{name}-*/out/girouette.bash
-install -Dpm0644 -t %{buildroot}/%{_datadir}/fish/vendor_completions.d \
+install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
   target/release/build/%{name}-*/out/girouette.fish
-install -Dpm0644 -t %{buildroot}/%{_datadir}/zsh/site-functions \
+install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
   target/release/build/%{name}-*/out/_girouette
 
 %files
@@ -66,6 +66,9 @@ install -Dpm0644 -t %{buildroot}/%{_datadir}/zsh/site-functions \
 %{_datadir}/zsh/site-functions/_girouette
 
 %changelog
+* Wed Feb 03 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.1-2
+- fix epel build: fix typo
+
 * Wed Feb 03 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.1-1
 - girouette 0.4.1
 
