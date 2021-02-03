@@ -1,5 +1,5 @@
 %global next_version 0.4.1
-%global baserelease 2
+%global baserelease 3
 %global pre_release 0
 
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
@@ -44,8 +44,8 @@ env RUSTFLAGS="%{rust_flags}" cargo build --release
 
 %install
 install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
-install -Dpm0644 -t %{buildroot}%{_datadir}/bash-completions/completions \
-  target/release/build/%{name}-*/out/girouette.bash
+install -Dpm0644 -T target/release/build/%{name}-*/out/girouette.bash \
+  %{buildroot}%{_datadir}/bash-completion/completions/girouette
 install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
   target/release/build/%{name}-*/out/girouette.fish
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
@@ -55,9 +55,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %{_bindir}/%{name}
 %license LICENSE-APACHE LICENSE-MIT
 %doc README.md CHANGELOG.md
-%dir %{_datadir}/bash-completions
-%dir %{_datadir}/bash-completions/completions
-%{_datadir}/bash-completions/completions/girouette.bash
+%dir %{_datadir}/bash-completion
+%dir %{_datadir}/bash-completion/completions
+%{_datadir}/bash-completion/completions/girouette
 %dir %{_datadir}/fish
 %dir %{_datadir}/fish/vendor_completions.d
 %{_datadir}/fish/vendor_completions.d/girouette.fish
@@ -66,6 +66,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %{_datadir}/zsh/site-functions/_girouette
 
 %changelog
+* Wed Feb 03 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.1-3
+- fix bash completion path
+
 * Wed Feb 03 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.1-2
 - fix epel build: fix typo
 
