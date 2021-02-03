@@ -1,5 +1,5 @@
-%global next_version 0.4.0
-%global baserelease 2
+%global next_version 0.4.1
+%global baserelease 1
 %global pre_release 0
 
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
@@ -44,13 +44,31 @@ env RUSTFLAGS="%{rust_flags}" cargo build --release
 
 %install
 install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
+install -Dpm0644 -t %{buildroot}/%{_datadir}/bash-completions/completions \
+  target/release/build/%{name}-*/out/girouette.bash
+install -Dpm0644 -t %{buildroot}/%{_datadir}/fish/vendor_completions.d \
+  target/release/build/%{name}-*/out/girouette.fish
+install -Dpm0644 -t %{buildroot}/%{_datadir}/zsh/site-functions \
+  target/release/build/%{name}-*/out/_girouette
 
 %files
 %{_bindir}/%{name}
 %license LICENSE-APACHE LICENSE-MIT
 %doc README.md CHANGELOG.md
+%dir %{_datadir}/bash-completions
+%dir %{_datadir}/bash-completions/completions
+%{_datadir}/bash-completions/completions/girouette.bash
+%dir %{_datadir}/fish
+%dir %{_datadir}/fish/vendor_completions.d
+%{_datadir}/fish/vendor_completions.d/girouette.fish
+%dir %{_datadir}/zsh
+%dir %{_datadir}/zsh/site-functions
+%{_datadir}/zsh/site-functions/_girouette
 
 %changelog
+* Wed Feb 03 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.1-1
+- girouette 0.4.1
+
 * Tue Feb 02 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-2
 - fix rust MSRV: 1.48.0
 
