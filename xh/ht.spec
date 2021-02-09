@@ -8,8 +8,8 @@
 
 Name: ht-rust
 Summary: Yet another HTTPie clone in Rust
-Version: 0.4.0
-Release: 3%{?dist}
+Version: 0.6.0
+Release: 1%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/ht/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/ht
@@ -35,6 +35,9 @@ install -Dps -m755 target/release/ht   %{buildroot}%{_bindir}/%{name}
 %doc README.md
 
 %changelog
+* Tue Feb 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.6.0-1
+- ht 0.6.0
+
 * Tue Feb 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-3
 - rename ht to ht-rust to avoid conflict
 
