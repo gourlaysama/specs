@@ -6,10 +6,10 @@
 
 ####
 
-Name: ht
+Name: ht-rust
 Summary: Yet another HTTPie clone in Rust
 Version: 0.4.0
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/ht/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/ht
@@ -21,13 +21,13 @@ BuildRequires: cargo
 %{summary}
 
 %prep
-%setup -q
+%setup -q -n ht-%{version}
 
 %build
 env RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release
 
 %install
-install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
+install -Dps -m755 target/release/ht   %{buildroot}%{_bindir}/%{name}
 
 %files
 %{_bindir}/%{name}
@@ -35,6 +35,9 @@ install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
 %doc README.md
 
 %changelog
+* Tue Feb 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-3
+- rename ht to ht-rust to avoid conflict
+
 * Tue Feb 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-2
 - build with lto
 
