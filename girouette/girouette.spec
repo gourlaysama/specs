@@ -40,7 +40,7 @@ BuildRequires: pkgconfig(openssl)
 %setup -q
 
 %build
-env RUSTFLAGS="%{rust_flags}" cargo build --release
+env RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
 
 %install
 install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
