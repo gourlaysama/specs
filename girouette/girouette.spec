@@ -1,31 +1,17 @@
-%global next_version 0.4.2
-%global baserelease 1
-%global pre_release 0
-
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
 
 ####
 
 %global debug_package %{nil}
 
-%if 0%{pre_release}
-%define pkg_release 0.%{baserelease}.dev%{?dist}
-%else
-%define pkg_release %{baserelease}%{?dist}
-%endif
-
 ####
 
 Name: girouette
 Summary: A command line tool that displays the current weather in the terminal.
-Version: %{next_version}
-Release: %{pkg_release}
+Version: 0.4.3
+Release: 1%{?dist}
 License: MIT or ASL 2.0
-%if 0%{pre_release}
-Source0: %{name}-%{next_version}-dev.tar.gz
-%else
 Source0: https://github.com/gourlaysama/girouette/archive/v%{version}.tar.gz
-%endif
 URL: https://github.com/gourlaysama/girouette
 
 BuildRequires: rust >= 1.48.0
@@ -66,6 +52,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %{_datadir}/zsh/site-functions/_girouette
 
 %changelog
+* Wed Feb 10 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.3-1
+- girouette 0.4.3
+
 * Tue Feb 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.2-1
 - girouette 0.4.2
 
