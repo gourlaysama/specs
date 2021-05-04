@@ -9,12 +9,16 @@
 Name: just
 Summary: Just a command runner.
 Version: 0.9.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: CC0
 Source0: https://github.com/casey/just/archive/v%{version}.tar.gz
 URL: https://github.com/casey/just
 
+%if 0%{?rhel}
+BuildRequires: rust
+%else
 BuildRequires: rust >= 1.51.0
+%endif
 BuildRequires: cargo
 
 %description
@@ -53,6 +57,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 %{_datadir}/zsh/site-functions/_just
 
 %changelog
+* Tue May 04 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.9.2-2
+- relax minimum rustc version on epel/centos-stream
+
 * Sun May 02 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.9.2-1
 - just 0.9.2
 - Initial package
