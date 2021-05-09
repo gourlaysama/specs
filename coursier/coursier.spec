@@ -1,7 +1,11 @@
-# coursier build requires git, sadly
-%global git_url https://github.com/coursier/coursier.git
-# for mima tests to work
-%global clone_base v2.0.0-RC6-7
+# this needs to be updated for a new release
+%global coursier_commit d5ad55d1dcb025084ba9bd994ea47ceae0608a8f
+
+# dependency versions
+%global directories_jvm_commit 006ca7ff804ca48f692d59a7fce8599f8a1eadfc
+%global windows_ansi_version 0.0.3
+%global ammonite_version 2.3.8
+%global graalvm_version 20.1.0
 
 %global debug_package %{nil}
 
@@ -10,10 +14,15 @@
 Name: coursier
 Summary: Pure Scala Artifact Fetching
 Version: 2.0.16
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
-Source0: https://github.com/coursier/coursier/releases/download/v%{version}/coursier
 URL: https://github.com/coursier/coursier
+Source0: https://github.com/coursier/coursier/archive/refs/tags/v%{version}.tar.gz
+Source1: https://github.com/dirs-dev/directories-jvm/archive/%{directories_jvm_commit}.tar.gz
+Source2: https://github.com/alexarchambault/windows-ansi/archive/refs/tags/v%{windows_ansi_version}.tar.gz
+
+Patch0: 0200-disable-proguard.patch
+Patch1: 0201-stick-mima-to-fixed-version-for-2.0.x.patch
 
 BuildRequires: java-devel >= 1:11
 BuildRequires: ncurses
@@ -25,22 +34,39 @@ BuildRequires: zlib-devel
 %{summary}
 
 %prep
-%setup -c -T
-git clone --shallow-exclude=%{clone_base} --branch "v%{version}" --recurse-submodules --shallow-submodules "%{git_url}" .
-mkdir -p ../cs_bin
-cp '%{SOURCE0}' ../cs_bin/cs
-chmod +x ../cs_bin/cs
+%setup -q -b0
+%patch0 -p1
+%patch1 -p1
+
+cd modules
+
+tar -xf '%{SOURCE1}'
+rm -d directories
+mv directories-* directories
+tar -xf '%{SOURCE2}'
+rm -d windows-ansi
+mv windows-ansi-* windows-ansi
+
+cd ..
+
+# the commit hash needs to be embedded in properties
+sed -i 's/Seq("git", "rev-parse", "HEAD").!!.trim/"%{git_commit}"/' project/Settings.scala
+# needed to fool the build; we don't actually need the tests
+mkdir -p modules/tests/metadata/https
+mkdir -p modules/tests/handmade-metadata/data
 
 %build
 mkdir -p out/completions
-export COURSIER_BIN_DIR="$(pwd)/../cs_bin"
-export PATH="$PATH:$COURSIER_BIN_DIR"
-cs java --jvm graalvm-ce-java11:20.1.0 -version
-cs install sbt-launcher:1.2.22 ammonite:2.3.8
-cs --completions zsh > out/completions/_cs
-sbt 'set publishArtifact in (ThisBuild, Compile, packageDoc) := false' 'set version in ThisBuild := "%{version}"' jvmProjects/publishLocal
-export JAVA_HOME="$(cs java-home --jvm graalvm-ce-java11:20.1.0)"
-amm launcher.sc generateNativeImage --version "%{version}" --output out/cs
+
+./sbt 'set publishArtifact in (ThisBuild, Compile, packageDoc) := false' 'set version in ThisBuild := "%{version}"' jvmProjects/publishLocal cli/pack
+
+./modules/cli/target/pack/bin/coursier java --jvm graalvm-ce-java11:%{graalvm_version} -version
+COURSIER_BIN_DIR="$(pwd)" ./modules/cli/target/pack/bin/coursier install ammonite:%{ammonite_version}
+ 
+export JAVA_HOME="$(./modules/cli/target/pack/bin/coursier java-home --jvm graalvm-ce-java11:%{graalvm_version})"
+./amm launcher.sc generateNativeImage --version "%{version}" --output out/cs
+
+./modules/cli/target/pack/bin/coursier --completions zsh > out/completions/_cs
 
 %install
 install -Dpsm755 out/cs %{buildroot}%{_bindir}/cs
@@ -53,5 +79,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions
 %{_datadir}/zsh/site-functions/_cs
 
 %changelog
+* Sun May 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-2
+- properly use tarballs instead of git clone
+- use a locally built coursier launcher
+
 * Fri Apr 02 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-1
 - initial packaging
