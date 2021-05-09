@@ -1,7 +1,5 @@
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
 
-####
-
 %global debug_package %{nil}
 
 ####
@@ -24,10 +22,10 @@ BuildRequires: cargo
 %setup -q
 
 %build
-env RUSTFLAGS="%{rust_flags}" cargo build --release
+RUSTFLAGS="%{rust_flags}" cargo build --release
 
 %install
-install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
+install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %{_bindir}/%{name}

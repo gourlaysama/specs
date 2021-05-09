@@ -1,8 +1,7 @@
+# coursier build requires git, sadly
 %global git_url https://github.com/coursier/coursier.git
 # for mima tests to work
 %global clone_base v2.0.0-RC6-7
-
-####
 
 %global debug_package %{nil}
 
@@ -44,7 +43,7 @@ export JAVA_HOME="$(cs java-home --jvm graalvm-ce-java11:20.1.0)"
 amm launcher.sc generateNativeImage --version "%{version}" --output out/cs
 
 %install
-install -Dps -m755 out/cs   %{buildroot}%{_bindir}/cs
+install -Dpsm755 out/cs %{buildroot}%{_bindir}/cs
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions/_cs
 
 %files

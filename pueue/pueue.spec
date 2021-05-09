@@ -1,7 +1,5 @@
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
 
-####
-
 %global debug_package %{nil}
 
 ####
@@ -25,11 +23,11 @@ BuildRequires: systemd-rpm-macros
 %setup -q
 
 %build
-env RUSTFLAGS="%{rust_flags}" cargo build --release
+RUSTFLAGS="%{rust_flags}" cargo build --release
 
 %install
-install -Dps -m755 target/release/pueue   %{buildroot}%{_bindir}/pueue
-install -Dps -m755 target/release/pueued   %{buildroot}%{_bindir}/pueued
+install -Dpsm755 target/release/pueue %{buildroot}%{_bindir}/pueue
+install -Dpsm755 target/release/pueued %{buildroot}%{_bindir}/pueued
 install -Dpm0644 -t %{buildroot}%{_userunitdir}/ utils/pueued.service
 mkdir -p utils/completions
 target/release/%{name} completions bash utils/completions/

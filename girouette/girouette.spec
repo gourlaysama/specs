@@ -26,10 +26,10 @@ BuildRequires: pkgconfig(openssl)
 %setup -q
 
 %build
-env RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
+RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
 
 %install
-install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
+install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 install -Dpm0644 -T target/release/build/%{name}-*/out/girouette.bash \
   %{buildroot}%{_datadir}/bash-completion/completions/girouette
 install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \

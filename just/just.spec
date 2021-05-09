@@ -1,7 +1,5 @@
 %global rust_flags -Ccodegen-units=1 -Clink-arg=-Wl,-z,relro,-z,now --cap-lints warn
 
-####
-
 %global debug_package %{nil}
 
 ####
@@ -28,10 +26,10 @@ BuildRequires: cargo
 %setup -q
 
 %build
-env RUSTFLAGS="%{rust_flags}" cargo build --release
+RUSTFLAGS="%{rust_flags}" cargo build --release
 
 %install
-install -Dps -m755 target/release/%{name}   %{buildroot}%{_bindir}/%{name}
+install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 install -Dpm0644 -T completions/just.bash \
   %{buildroot}%{_datadir}/bash-completion/completions/just
 install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
