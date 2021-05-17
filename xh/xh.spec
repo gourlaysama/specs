@@ -6,7 +6,7 @@
 
 Name: xh
 Summary: Yet another HTTPie clone in Rust
-Version: 0.9.2
+Version: 0.10.0
 Release: 1%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/xh/archive/v%{version}.tar.gz
@@ -54,6 +54,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 %{_datadir}/zsh/site-functions/_xh
 
 %changelog
+* Mon May 17 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.10.0-1
+- xh 0.10.0
+
 * Thu Mar 25 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.9.2-1
 - xh 0.9.2
 
