@@ -6,7 +6,7 @@
 
 Name: thumbs
 Summary: A command line tool to manage the cached thumbnails of files.
-Version: 0.2.1
+Version: 0.2.2
 Release: 1%{?dist}
 License: ASL 2.0
 Source0: https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
@@ -33,5 +33,8 @@ install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 %doc README.md CHANGELOG.md
 
 %changelog
+* Fri Jul 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.2.2-1
+- thumbs 0.2.2
+
 * Wed Jul 07 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.2.1-1
 - thumbs 0.2.1
