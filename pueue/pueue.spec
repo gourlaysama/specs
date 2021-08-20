@@ -6,7 +6,7 @@
 
 Name: pueue
 Summary: A command-line task management tool for sequential and parallel execution of long-running tasks.
-Version: 1.0.0
+Version: 1.0.1
 Release: 1%{?dist}
 License: MIT
 Source0: https://github.com/Nukesor/pueue/archive/v%{version}.tar.gz
@@ -63,6 +63,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %systemd_user_preun pueued.service
 
 %changelog
+* Fri Aug 20 2021 Antoine Gourlay <antoine@gourlay.fr> - 1.0.1-1
+- pueue 1.0.1
+
 * Thu Aug 19 2021 Antoine Gourlay <antoine@gourlay.fr> - 1.0.0-1
 - pueue 1.0.0
 
