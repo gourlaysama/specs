@@ -32,6 +32,12 @@ RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 install -Dpm0644 -T target/release/build/%{name}-*/out/girouette.bash \
   %{buildroot}%{_datadir}/bash-completion/completions/girouette
+
+%if 0%{?rhel}
+mkdir -p %{buildroot}%{_datadir}/fish/vendor_completions.d
+mkdir -p %{buildroot}%{_datadir}/zsh/site-functions
+%endif
+
 install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
   target/release/build/%{name}-*/out/girouette.fish
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
