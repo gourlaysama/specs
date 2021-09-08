@@ -6,9 +6,9 @@
 
 Name: dcamctl
 Summary: A command line tool to use an android device connected over USB as a webcam.
-Version: 0.4.0
+Version: 0.4.1
 Release: 1%{?dist}
-License: MIT or ASL 2.0
+License: ASL 2.0
 Source0: https://github.com/gourlaysama/dcamctl/archive/v%{version}.tar.gz
 URL: https://github.com/gourlaysama/dcamctl
 
@@ -38,6 +38,9 @@ install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 %doc README.md CHANGELOG.md
 
 %changelog
+* Wed Sep 08 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.1-1
+- dcamctl 0.4.1
+
 * Mon Sep 06 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-1
 - dcamctl 0.4.0
 
