@@ -7,7 +7,7 @@
 Name: biosctl
 Summary: A cli tool to manage Dell BIOS/EFI settings on Linux 5.11+.
 Version: 0.3.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 Source0: https://github.com/gourlaysama/biosctl/archive/v%{version}.tar.gz
 URL: https://github.com/gourlaysama/biosctl
@@ -22,7 +22,7 @@ BuildRequires: cargo
 %setup -q
 
 %build
-RUSTFLAGS="%{rust_flags}" cargo build --release
+RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
@@ -33,6 +33,9 @@ install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 %doc README.md CHANGELOG.md
 
 %changelog
+* Fri Nov 05 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.3.2-2
+- rebuild with correct build id
+
 * Fri Oct 29 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.3.2-1
 - biosctl 0.3.2
 
