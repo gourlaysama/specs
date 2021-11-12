@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
-%global snapshot 949a867
-%global snapshot_date 20211026
+%global snapshot 140cc65
+%global snapshot_date 20211110
 
 ####
 
@@ -47,6 +47,9 @@ ln -s %{_libexecdir}/%{name}/scala-runner %{buildroot}%{_bindir}/scaladoc
 %license LICENSE NOTICE
 
 %changelog
+* Fri Nov 12 2021 Antoine Gourlay <antoine@gourlay.fr> - 0-0.2.20211110git140cc65
+- update to latest snapshot (2021-11-10)
+
 * Tue Oct 26 2021 Antoine Gourlay <antoine@gourlay.fr> - 0-0.2.20211026git949a867
 - update to latest snapshot
 
