@@ -29,6 +29,14 @@ RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
+
+%if 0%{?el7}
+mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
+mkdir -p %{buildroot}%{_datadir}/fish/vendor_completions.d
+mkdir -p %{buildroot}%{_datadir}/zsh/site-functions
+mkdir -p %{buildroot}%{_mandir}/man1
+%endif
+
 install -Dpm0644 -t %{buildroot}%{_datadir}/bash-completion/completions/ \
   completions/xh.bash
 install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
