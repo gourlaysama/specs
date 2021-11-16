@@ -7,12 +7,12 @@
 Name: pueue
 Summary: A command-line task management tool for sequential and parallel execution of long-running tasks.
 Version: 1.0.4
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 Source0: https://github.com/Nukesor/pueue/archive/v%{version}.tar.gz
 URL: https://github.com/Nukesor/pueue
 
-BuildRequires: rust >= 1.51.0
+BuildRequires: rust >= 1.54.0
 BuildRequires: cargo
 BuildRequires: systemd-rpm-macros
 
@@ -63,6 +63,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %systemd_user_preun pueued.service
 
 %changelog
+* Tue Nov 16 2021 Antoine Gourlay <antoine@gourlay.fr> - 1.0.4-2
+- pueue: update MSRV
+
 * Fri Nov 12 2021 Antoine Gourlay <antoine@gourlay.fr> - 1.0.4-1
 - pueue 1.0.4
 
