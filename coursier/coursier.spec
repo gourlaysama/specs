@@ -5,7 +5,13 @@
 %global directories_jvm_commit 006ca7ff804ca48f692d59a7fce8599f8a1eadfc
 %global windows_ansi_version 0.0.3
 %global ammonite_version 2.3.8
-%global graalvm_version 20.1.0
+
+%ifarch aarch64
+# only version available on arm64 in jabba
+%define graalvm_version 21.1.0
+%else
+%define graalvm_version 20.1.0
+%endif
 
 %global debug_package %{nil}
 
@@ -14,7 +20,7 @@
 Name: coursier
 Summary: Pure Scala Artifact Fetching
 Version: 2.0.16
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: ASL 2.0
 URL: https://github.com/coursier/coursier
 Source0: https://github.com/coursier/coursier/archive/refs/tags/v%{version}.tar.gz
@@ -79,6 +85,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions
 %{_datadir}/zsh/site-functions/_cs
 
 %changelog
+* Wed Nov 24 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-3
+- arm64 build support
+
 * Sun May 09 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-2
 - properly use tarballs instead of git clone
 - use a locally built coursier launcher
