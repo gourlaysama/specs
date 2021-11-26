@@ -20,7 +20,7 @@
 Name: coursier
 Summary: Pure Scala Artifact Fetching
 Version: 2.0.16
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: ASL 2.0
 URL: https://github.com/coursier/coursier
 Source0: https://github.com/coursier/coursier/archive/refs/tags/v%{version}.tar.gz
@@ -30,7 +30,12 @@ Source2: https://github.com/alexarchambault/windows-ansi/archive/refs/tags/v%{wi
 Patch0: 0200-disable-proguard.patch
 Patch1: 0201-stick-mima-to-fixed-version-for-2.0.x.patch
 
+%if 0%{?rhel}
+BuildRequires: java-11-openjdk-devel
+%else
 BuildRequires: java-devel >= 1:11
+%endif
+
 BuildRequires: ncurses
 BuildRequires: git
 BuildRequires: gcc-c++
@@ -76,6 +81,10 @@ export JAVA_HOME="$(./modules/cli/target/pack/bin/coursier java-home --jvm graal
 
 %install
 install -Dpsm755 out/cs %{buildroot}%{_bindir}/cs
+
+%if 0%{?el7}
+mkdir -p %{buildroot}%{_datadir}/zsh/site-functions
+%endif
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions/_cs
 
 %files
@@ -85,6 +94,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions
 %{_datadir}/zsh/site-functions/_cs
 
 %changelog
+* Fri Nov 26 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-4
+- EPEL/CentOS-Stream support
+
 * Wed Nov 24 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-3
 - arm64 build support
 
