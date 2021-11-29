@@ -7,7 +7,7 @@
 Name: xh
 Summary: Yet another HTTPie clone in Rust
 Version: 0.14.1
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/xh/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/xh
@@ -29,6 +29,7 @@ RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
+ln -s xh %{buildroot}%{_bindir}/xhs
 
 %if 0%{?el7}
 mkdir -p %{buildroot}%{_datadir}/bash-completion/completions
@@ -48,6 +49,7 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 
 %files
 %{_bindir}/%{name}
+%{_bindir}/xhs
 %license LICENSE
 %doc README.md CHANGELOG.md
 %{_mandir}/man1/xh.1*
@@ -62,6 +64,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 %{_datadir}/zsh/site-functions/_xh
 
 %changelog
+* Mon Nov 29 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.14.1-2
+- add /usr/bin/xhs symlink to xh
+
 * Sat Nov 27 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.14.1-1
 - xh v0.14.1
 
