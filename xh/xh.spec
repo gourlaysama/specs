@@ -7,7 +7,7 @@
 Name: xh
 Summary: Yet another HTTPie clone in Rust
 Version: 0.14.1
-Release: 2%{?dist}
+Release: 3%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/xh/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/xh
@@ -17,6 +17,7 @@ Obsoletes: ht-rust <= 0.6.0-2
 
 BuildRequires: rust >= 1.46.0
 BuildRequires: cargo
+BuildRequires: pkgconfig(openssl)
 
 %description
 %{summary}
@@ -25,7 +26,7 @@ BuildRequires: cargo
 %setup -q -n xh-%{version}
 
 %build
-RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release
+RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release --features native-tls
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
@@ -64,6 +65,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 %{_datadir}/zsh/site-functions/_xh
 
 %changelog
+* Mon Nov 29 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.14.1-3
+- use native TLS stack (link to openssl)
+
 * Mon Nov 29 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.14.1-2
 - add /usr/bin/xhs symlink to xh
 
