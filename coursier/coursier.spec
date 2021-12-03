@@ -20,7 +20,7 @@
 Name: coursier
 Summary: Pure Scala Artifact Fetching
 Version: 2.0.16
-Release: 4%{?dist}
+Release: 5%{?dist}
 License: ASL 2.0
 URL: https://github.com/coursier/coursier
 Source0: https://github.com/coursier/coursier/archive/refs/tags/v%{version}.tar.gz
@@ -29,6 +29,7 @@ Source2: https://github.com/alexarchambault/windows-ansi/archive/refs/tags/v%{wi
 
 Patch0: 0200-disable-proguard.patch
 Patch1: 0201-stick-mima-to-fixed-version-for-2.0.x.patch
+Patch2: 0202-workaround-OutOfMemoryError-give-GraalVM-more-memory.patch
 
 %if 0%{?rhel}
 BuildRequires: java-11-openjdk-devel
@@ -48,6 +49,7 @@ BuildRequires: zlib-devel
 %setup -q -b0
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 cd modules
 
@@ -94,6 +96,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions
 %{_datadir}/zsh/site-functions/_cs
 
 %changelog
+* Fri Dec 03 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-5
+- workaround OutOfMemoryError: give GraalVM more memory
+
 * Fri Nov 26 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.16-4
 - EPEL/CentOS-Stream support
 

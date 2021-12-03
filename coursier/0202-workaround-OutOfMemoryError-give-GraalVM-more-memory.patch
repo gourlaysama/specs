@@ -1,0 +1,25 @@
+From 02a87b489458960d170a883467871bd4ac78bda1 Mon Sep 17 00:00:00 2001
+From: Antoine Gourlay <antoine@gourlay.fr>
+Date: Fri, 3 Dec 2021 15:44:30 +0100
+Subject: [PATCH] workaround OutOfMemoryError: give GraalVM more memory
+
+---
+ scripts/shared/GenerateLauncher.sc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/shared/GenerateLauncher.sc b/scripts/shared/GenerateLauncher.sc
+index cf0a0c2..7824c17 100644
+--- a/scripts/shared/GenerateLauncher.sc
++++ b/scripts/shared/GenerateLauncher.sc
+@@ -214,7 +214,7 @@ def nativeImage(
+     }
+ 
+   val mem =
+-    if (Util.os == "linux") "3584m"
++    if (Util.os == "linux") "5g"
+     else "3g"
+ 
+   val graalvmVer = if (Util.os == "win") "20.1.0" else "20.1.0"
+-- 
+2.33.1
+
