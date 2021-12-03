@@ -1,0 +1,78 @@
+From 9177baa7f1ef74f024a325c945a1bcaef48c8546 Mon Sep 17 00:00:00 2001
+From: Antoine Gourlay <antoine@gourlay.fr>
+Date: Fri, 3 Dec 2021 11:12:07 +0100
+Subject: [PATCH] ppc64: fully disable rusttls in addition to native-tls
+
+Enabling native-tls isn't enough: it still builds the rusttls
+backend. And rusttls depends on ring, which
+doesn't build on ppc64.
+---
+ Cargo.toml  |  2 +-
+ src/main.rs | 31 ++-----------------------------
+ 2 files changed, 3 insertions(+), 30 deletions(-)
+
+diff --git a/Cargo.toml b/Cargo.toml
+index 1878f68..650b2f9 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -44,7 +44,7 @@ url = "2.2.2"
+ [dependencies.reqwest]
+ version = "0.11.6"
+ default-features = false
+-features = ["rustls-tls", "json", "gzip", "brotli", "deflate", "multipart", "blocking", "socks", "cookies"]
++features = ["json", "gzip", "brotli", "deflate", "multipart", "blocking", "socks", "cookies"]
+ 
+ [dependencies.syntect]
+ version = "4.4"
+diff --git a/src/main.rs b/src/main.rs
+index b67f39a..fd7cf89 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -124,7 +124,6 @@ fn run(args: Cli) -> Result<i32> {
+ 
+     let mut client = Client::builder()
+         .http1_title_case_headers()
+-        .use_rustls_tls()
+         .http2_adaptive_window(true)
+         .redirect(reqwest::redirect::Policy::none())
+         .timeout(timeout);
+@@ -208,34 +207,8 @@ fn run(args: Cli) -> Result<i32> {
+             }
+         };
+ 
+-        if let Some(cert) = args.cert {
+-            if args.native_tls {
+-                // Unlike the --verify case this is advertised to not work, so it's
+-                // not an outright bug, but it's still imaginable that it'll start working
+-                warn("Client certificates are not supported for native-tls")
+-            }
+-
+-            let mut buffer = Vec::new();
+-            let mut file = File::open(&cert)
+-                .with_context(|| format!("Failed to open the cert file: {}", cert.display()))?;
+-            file.read_to_end(&mut buffer)
+-                .with_context(|| format!("Failed to read the cert file: {}", cert.display()))?;
+-
+-            if let Some(cert_key) = args.cert_key {
+-                buffer.push(b'\n');
+-
+-                let mut file = File::open(&cert_key).with_context(|| {
+-                    format!("Failed to open the cert key file: {}", cert_key.display())
+-                })?;
+-                file.read_to_end(&mut buffer).with_context(|| {
+-                    format!("Failed to read the cert key file: {}", cert_key.display())
+-                })?;
+-            }
+-
+-            // We may fail here if we can't parse it but also if we don't have the key
+-            let identity = reqwest::Identity::from_pem(&buffer)
+-                .context("Failed to load the cert/cert key files")?;
+-            client = client.identity(identity);
++        if let Some(_cert) = args.cert {
++            return Err(anyhow!("Client certificates are not supported for native-tls-only builds"));
+         };
+     }
+ 
+-- 
+2.33.1
+

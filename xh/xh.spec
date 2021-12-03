@@ -7,10 +7,12 @@
 Name: xh
 Summary: Yet another HTTPie clone in Rust
 Version: 0.14.1
-Release: 3%{?dist}
+Release: 4%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/xh/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/xh
+
+Patch0: 0001-fully-disable-rusttls-in-addition-to-native-tls.patch
 
 Provides: ht-rust%{?_isa} = %{version}-%{release}
 Obsoletes: ht-rust <= 0.6.0-2
@@ -24,6 +26,9 @@ BuildRequires: pkgconfig(openssl)
 
 %prep
 %setup -q -n xh-%{version}
+%ifarch ppc64le
+%patch0 -p1
+%endif
 
 %build
 RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release --features native-tls
@@ -65,6 +70,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 %{_datadir}/zsh/site-functions/_xh
 
 %changelog
+* Fri Dec 03 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.14.1-4
+- enable ppc64le build: do not build rusttls backend
+
 * Mon Nov 29 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.14.1-3
 - use native TLS stack (link to openssl)
 
