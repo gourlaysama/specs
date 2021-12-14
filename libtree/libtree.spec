@@ -4,50 +4,39 @@
 
 Name: libtree
 Summary: ldd as a tree with an option to bundle dependencies into a single folder.
-Version: 2.0.0
+Version: 3.0.0
 Release: 1%{?dist}
-# MIT: libtree, BSD: termcolor
-License: MIT and BSD
+License: MIT
 Source0: https://github.com/haampie/libtree/archive/v%{version}.tar.gz
-Source1: https://github.com/ikalnytskyi/termcolor/archive/67eb0aa.tar.gz
 URL: https://github.com/haampie/libtree
 
-Patch0: 0001-build-with-unpackaged-dependencies.patch
-
 BuildRequires: make
-BuildRequires: cmake
-BuildRequires: gcc-c++
-BuildRequires: cmake(cxxopts)
-BuildRequires: elfio-static
-
-Provides: bundled(termcolor) = 2.0.0
+BuildRequires: gcc
 
 %description
 %{summary}
 
 %prep
 %setup -q
-%patch0 -p1
-
-mkdir bundled
-cd bundled
-tar -xf %{SOURCE1}
-mv termcolor-* termcolor
-cp termcolor/LICENSE ../LICENSE-TERMCOLOR
 
 %build
-%cmake . -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH="bundled/"
-%cmake_build
+%set_build_flags
+%make_build
 
 %install
-%cmake_install
+install -Dpsm755 %{name} %{buildroot}%{_bindir}/%{name}
+install -Dpm0644 -t %{buildroot}%{_mandir}/man1 doc/%{name}.1
+
 
 %files
 %{_bindir}/%{name}
+%license LICENSE
+%doc README.md CHANGELOG.md
 %{_mandir}/man1/%{name}.1*
-%license LICENSE LICENSE-TERMCOLOR
-%doc README.md
 
 %changelog
+* Tue Dec 14 2021 Antoine Gourlay <antoine@gourlay.fr> - 3.0.0-1
+- libtree 3.0.0
+
 * Mon Dec 06 2021 Antoine Gourlay <antoine@gourlay.fr> - 2.0.0-1
 - initial packaging
