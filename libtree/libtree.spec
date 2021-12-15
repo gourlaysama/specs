@@ -5,7 +5,7 @@
 Name: libtree
 Summary: ldd as a tree with an option to bundle dependencies into a single folder.
 Version: 3.0.0
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT
 Source0: https://github.com/haampie/libtree/archive/v%{version}.tar.gz
 URL: https://github.com/haampie/libtree
@@ -25,6 +25,10 @@ BuildRequires: gcc
 
 %install
 install -Dpsm755 %{name} %{buildroot}%{_bindir}/%{name}
+
+%if 0%{?el7}
+mkdir -p %{buildroot}%{_mandir}/man1
+%endif
 install -Dpm0644 -t %{buildroot}%{_mandir}/man1 doc/%{name}.1
 
 
@@ -35,6 +39,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 doc/%{name}.1
 %{_mandir}/man1/%{name}.1*
 
 %changelog
+* Wed Dec 15 2021 Antoine Gourlay <antoine@gourlay.fr> - 3.0.0-2
+- build for epel/centos-stream
+
 * Tue Dec 14 2021 Antoine Gourlay <antoine@gourlay.fr> - 3.0.0-1
 - libtree 3.0.0
 
