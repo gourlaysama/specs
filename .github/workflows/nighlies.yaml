@@ -8,7 +8,7 @@ jobs:
   wezterm:
     name: Wezterm nightly builds
     runs-on: ubuntu-latest
-    container: "fedora:latest"
+    container: fedora:latest
     steps:
       - uses: actions/checkout@v2
         with:
