@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     container: fedora:latest
     steps:
+      - name: Install tools
+        run: |
+          dnf install -y --setopt=install_weak_deps=False -y createrepo_c git dnf-plugins-core
+          dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+          dnf install -y gh
       - uses: actions/checkout@v2
         with:
           ref: 'gh-pages'
@@ -17,6 +22,8 @@ jobs:
       - name: Get latest nightly
         run: |
           gh release download -R wez/wezterm nightly -p 'wezterm-nightly-fedora35.rpm'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Check if updated
         id: check
         shell: bash
@@ -30,10 +37,6 @@ jobs:
           else
             echo '::set-output name=changed::false'
           fi
-      - name: Install tools
-        if: steps.check.outputs.changed
-        run: |
-          dnf install --setopt=install_weak_deps=False -y createrepo_c git
       - name: Rebuild RPM repository
         if: steps.check.outputs.changed
         run: |
