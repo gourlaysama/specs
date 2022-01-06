@@ -51,4 +51,4 @@ jobs:
           git config user.email github-actions@github.com
           git add .
           git commit --amend --reset-author -m "latest generated wezterm repo"
-          git push
+          git push origin gh-pages --force-with-lease
