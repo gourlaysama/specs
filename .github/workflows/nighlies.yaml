@@ -40,10 +40,11 @@ jobs:
       - name: Rebuild RPM repository
         if: steps.check.outputs.changed
         run: |
-          ls -tp repo/wezterm/fedora/35/x86_64/ | grep -v '/$' | tail -n +3 | xargs -d '\n' -r rm --
-          rm -rf repo/wezterm/fedora/35/x86_64/repodata
-          rm -rf repo/wezterm/fedora/35/x86_64/drpms
-          createrepo repo/wezterm/fedora/35/x86_64 --deltas --oldpackagedirs repo/wezterm/fedora/35/x86_64/ --zck
+          cd repo/wezterm/fedora/35/x86_64/
+          ls -tp  | grep -v '/$' | tail -n +3 | xargs -d '\n' -r rm --
+          rm -rf repodata
+          rm -rf drpms
+          createrepo . --deltas --oldpackagedirs . --zck
       - name: Publish to gh-pages
         if: steps.check.outputs.changed
         run: |
