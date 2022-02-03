@@ -1,0 +1,49 @@
+From ff3381ec2fbcd2babe2874c2f2ccdc1b2db4e7a1 Mon Sep 17 00:00:00 2001
+From: Antoine Gourlay <antoine@gourlay.fr>
+Date: Thu, 3 Feb 2022 14:46:31 +0100
+Subject: [PATCH] no git
+
+---
+ project/modules/shared.sc | 24 +++---------------------
+ 1 file changed, 3 insertions(+), 21 deletions(-)
+
+diff --git a/project/modules/shared.sc b/project/modules/shared.sc
+index 2f345dc0..56667eb2 100644
+--- a/project/modules/shared.sc
++++ b/project/modules/shared.sc
+@@ -8,29 +8,11 @@ trait CsMima extends Mima {
+ }
+ 
+ def commitHash = T {
+-  os.proc("git", "rev-parse", "HEAD").call().out.text.trim
++  "b4b277fb8560573fda4b93f05674f228fcccef20"
+ }
+ 
+-lazy val latestTaggedVersion = os.proc("git", "describe", "--abbrev=0", "--tags", "--match", "v*")
+-  .call().out
+-  .trim
+-lazy val buildVersion = {
+-  val gitHead = os.proc("git", "rev-parse", "HEAD").call().out.trim
+-  val maybeExactTag = scala.util.Try {
+-    os.proc("git", "describe", "--exact-match", "--tags", "--always", gitHead)
+-      .call().out
+-      .trim
+-      .stripPrefix("v")
+-  }
+-  maybeExactTag.toOption.getOrElse {
+-    val commitsSinceTaggedVersion =
+-      os.proc('git, "rev-list", gitHead, "--not", latestTaggedVersion, "--count")
+-        .call().out.trim
+-        .toInt
+-    val gitHash = os.proc("git", "rev-parse", "--short", "HEAD").call().out.trim
+-    s"${latestTaggedVersion.stripPrefix("v")}-$commitsSinceTaggedVersion-$gitHash-SNAPSHOT"
+-  }
+-}
++lazy val latestTaggedVersion = "v2.1.0-M4"
++lazy val buildVersion = latestTaggedVersion.stripPrefix("v")
+ 
+ trait CoursierPublishModule extends PublishModule {
+   import mill.scalalib.publish._
+-- 
+2.34.1
+
