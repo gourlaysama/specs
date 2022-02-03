@@ -1,6 +1,6 @@
-From b4f0635b5389c852f570c976353c78828463b838 Mon Sep 17 00:00:00 2001
+From ff3381ec2fbcd2babe2874c2f2ccdc1b2db4e7a1 Mon Sep 17 00:00:00 2001
 From: Antoine Gourlay <antoine@gourlay.fr>
-Date: Wed, 6 Oct 2021 17:24:23 +0200
+Date: Thu, 3 Feb 2022 14:46:31 +0100
 Subject: [PATCH] no git
 
 ---
@@ -8,7 +8,7 @@ Subject: [PATCH] no git
  1 file changed, 3 insertions(+), 21 deletions(-)
 
 diff --git a/project/modules/shared.sc b/project/modules/shared.sc
-index 0683f57..99ab17d 100644
+index 2f345dc0..56667eb2 100644
 --- a/project/modules/shared.sc
 +++ b/project/modules/shared.sc
 @@ -8,29 +8,11 @@ trait CsMima extends Mima {
@@ -16,7 +16,7 @@ index 0683f57..99ab17d 100644
  
  def commitHash = T {
 -  os.proc("git", "rev-parse", "HEAD").call().out.text.trim
-+  "194ebc55cb92f5432ff58af0943fdbd41704098d"
++  "b4b277fb8560573fda4b93f05674f228fcccef20"
  }
  
 -lazy val latestTaggedVersion = os.proc("git", "describe", "--abbrev=0", "--tags", "--match", "v*")
@@ -39,11 +39,11 @@ index 0683f57..99ab17d 100644
 -    s"${latestTaggedVersion.stripPrefix("v")}-$commitsSinceTaggedVersion-$gitHash-SNAPSHOT"
 -  }
 -}
-+lazy val latestTaggedVersion = "2.0.16-169-g194ebc55c"
-+lazy val buildVersion = latestTaggedVersion
++lazy val latestTaggedVersion = "v2.1.0-M4"
++lazy val buildVersion = latestTaggedVersion.stripPrefix("v")
  
  trait CoursierPublishModule extends PublishModule {
    import mill.scalalib.publish._
 -- 
-2.31.1
+2.34.1
 
