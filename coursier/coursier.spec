@@ -63,6 +63,11 @@ utils/cs --completions zsh > out/completions/_cs
 
 %install
 install -Dpsm755 artifacts/cs-* %{buildroot}%{_bindir}/cs
+
+%if 0%{?el7}
+install -dpm0755 %{buildroot}%{_datadir}/zsh/site-functions
+%endif
+
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions/_cs
 
 %files
