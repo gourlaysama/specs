@@ -5,7 +5,7 @@
 
 ####
 
-Version: 0.8.0
+Version: 0.8.1
 %gometa
 
 Name: duf
@@ -45,6 +45,9 @@ install -Dpvm 0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
 %gopkgfiles
 
 %changelog
+* Tue Feb 08 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.8.1-1
+- duf 0.8.1
+
 * Tue Feb 01 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.8.0-1
 - duf 0.8.0
 
