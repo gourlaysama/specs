@@ -4,7 +4,7 @@
 
 Name: btop
 Summary: Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
-Version: 1.2.1
+Version: 1.2.2
 Release: 1%{?dist}
 License: ASL 2.0
 Source0: https://github.com/aristocratos/btop/archive/v%{version}.tar.gz
@@ -37,6 +37,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/%{name}/themes themes/*
 %doc README.md CHANGELOG.md
 
 %changelog
+* Sun Feb 13 2022 Antoine Gourlay <antoine@gourlay.fr> - 1.2.2-1
+- btop 1.2.2
+
 * Fri Feb 11 2022 Antoine Gourlay <antoine@gourlay.fr> - 1.2.1-1
 - btop 1.2.1
 
