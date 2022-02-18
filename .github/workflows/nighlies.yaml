@@ -28,9 +28,8 @@ jobs:
         id: check
         shell: bash
         run: |
-          old=$(dnf repoquery --repofrompath repo,repo/wezterm/fedora/35/x86_64/ --repo repo wezterm)
-          old=${old/wezterm-0:/wezterm-}
-          new=$(rpm -q wezterm-nightly-fedora35.rpm)
+          old=$(dnf repoquery --nevra --latest-limit 1 --repofrompath repo,repo/wezterm/fedora/35/x86_64/ --repo repo wezterm)
+          new=$(rpm --qf '%{NAME}-%{EPOCHNUM}:%{VERSION}.%{RELEASE}.%{ARCH}\n' -q wezterm-nightly-fedora35.rpm)
           echo "old: $old"
           echo "new: $new"
           if [ "$old" != "$new" ]; then
