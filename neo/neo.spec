@@ -1,8 +1,8 @@
 
 Name: neo
 Summary: Simulates the digital rain from "The Matrix".
-Version: 0.6
-Release: 2%{?dist}
+Version: 0.6.1
+Release: 1%{?dist}
 License: GPLv3
 Source0: https://github.com/st3w/neo/releases/download/v%{version}/neo-%{version}.tar.gz
 URL: https://github.com/st3w/neo
@@ -34,6 +34,9 @@ scroll down your terminal screen.
 %{_mandir}/man6/%{name}.6*
 
 %changelog
+* Tue Feb 22 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.6.1-1
+- neo 0.6.1
+
 * Fri Dec 17 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.6-2
 - improve packaging
 
