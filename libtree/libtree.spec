@@ -2,13 +2,16 @@
 
 ####
 
-Name: libtree
+Name: libtree-ldd
 Summary: ldd as a tree with an option to bundle dependencies into a single folder.
-Version: 3.0.2
+Version: 3.0.3~copr
 Release: 1%{?dist}
 License: MIT
-Source0: https://github.com/haampie/libtree/archive/v%{version}.tar.gz
+Source0: https://github.com/haampie/libtree/archive/v3.0.3.tar.gz
 URL: https://github.com/haampie/libtree
+
+Provides: libtree = 3.0.3-1
+Obsoletes: libtree < 3.0.3-1
 
 BuildRequires: make
 BuildRequires: gcc
@@ -17,28 +20,32 @@ BuildRequires: gcc
 %{summary}
 
 %prep
-%setup -q
+%setup -q -n libtree-3.0.3
 
 %build
 %set_build_flags
 %make_build
 
 %install
-install -Dpsm755 %{name} %{buildroot}%{_bindir}/%{name}
+install -Dpsm755 libtree %{buildroot}%{_bindir}/libtree
 
 %if 0%{?el7}
 mkdir -p %{buildroot}%{_mandir}/man1
 %endif
-install -Dpm0644 -t %{buildroot}%{_mandir}/man1 doc/%{name}.1
+install -Dpm0644 -t %{buildroot}%{_mandir}/man1 doc/libtree.1
 
 
 %files
-%{_bindir}/%{name}
+%{_bindir}/libtree
 %license LICENSE
 %doc README.md CHANGELOG.md
-%{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/libtree.1*
 
 %changelog
+* Wed Feb 23 2022 Antoine Gourlay <antoine@gourlay.fr> - 3.0.3~copr-1
+- libtree 3.0.3
+- deprecate COPR package: will be upgraded to libtree-ldd from fedora-updates
+
 * Fri Jan 14 2022 Antoine Gourlay <antoine@gourlay.fr> - 3.0.2-1
 - libtree 3.0.2
 
