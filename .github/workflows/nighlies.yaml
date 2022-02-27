@@ -12,18 +12,14 @@ jobs:
     steps:
       - name: Install tools
         run: |
-          dnf install -y --setopt=install_weak_deps=False -y createrepo_c git dnf-plugins-core findutils
-          dnf config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
-          dnf install -y gh
+          dnf install -y --setopt=install_weak_deps=False -y createrepo_c git dnf-plugins-core findutils wget
       - uses: actions/checkout@v2
         with:
           ref: 'gh-pages'
           fetch-depth: 0
       - name: Get latest nightly
         run: |
-          gh release download -R wez/wezterm nightly -p 'wezterm-nightly-fedora35.rpm'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          wget 'https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly-fedora35.rpm'
       - name: Check if updated
         id: check
         shell: bash
@@ -32,11 +28,11 @@ jobs:
           new=$(rpm --qf '%{NAME}-%{EPOCHNUM}:%{VERSION}-%{RELEASE}.%{ARCH}\n' -q wezterm-nightly-fedora35.rpm)
           echo "old: $old"
           echo "new: $new"
-          if [ "$old" != "$new" ]; then
+          if [ "$old" = "$new" ]; then
+            echo '::set-output name=changed::false'
+          else
             echo '::set-output name=changed::true'
             mv wezterm-nightly-fedora35.rpm "repo/wezterm/fedora/35/x86_64/$new.rpm"
-          else
-            echo '::set-output name=changed::false'
           fi
       - name: Rebuild RPM repository
         if: steps.check.outputs.changed
