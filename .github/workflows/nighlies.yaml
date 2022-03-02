@@ -33,6 +33,7 @@ jobs:
             rm wezterm-nightly-fedora35.rpm
           else
             echo '::set-output name=changed::true'
+            new=$(rpm -q wezterm-nightly-fedora35.rpm)
             mv wezterm-nightly-fedora35.rpm "repo/wezterm/fedora/35/x86_64/$new.rpm"
           fi
       - name: Rebuild RPM repository
