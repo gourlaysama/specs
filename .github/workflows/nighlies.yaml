@@ -29,7 +29,6 @@ jobs:
           echo "old: $old"
           echo "new: $new"
           if [ "$old" = "$new" ]; then
-            echo '::set-output name=changed::false'
             rm wezterm-nightly-fedora35.rpm
           else
             echo '::set-output name=changed::true'
