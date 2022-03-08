@@ -8,13 +8,13 @@
 
 Name: girouette
 Summary: A command line tool that displays the current weather in the terminal.
-Version: 0.6.7
+Version: 0.7.0
 Release: 1%{?dist}
 License: MIT or ASL 2.0
 Source0: https://github.com/gourlaysama/girouette/archive/v%{version}.tar.gz
 URL: https://github.com/gourlaysama/girouette
 
-BuildRequires: rust >= 1.53.0
+BuildRequires: rust >= 1.57.0
 BuildRequires: cargo
 BuildRequires: pkgconfig(dbus-1)
 BuildRequires: pkgconfig(openssl)
@@ -58,6 +58,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %{_datadir}/zsh/site-functions/_girouette
 
 %changelog
+* Tue Mar 08 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.0-1
+- girouette 0.7.0
+
 * Thu Dec 30 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.6.7-1
 - girouette 0.6.7
 
