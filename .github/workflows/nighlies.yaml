@@ -39,7 +39,7 @@ jobs:
         if: steps.check.outputs.changed
         run: |
           cd repo/wezterm/fedora/35/x86_64/
-          ls -p  | grep -v '/$' | tail -n +3 | xargs -d '\n' -r rm --
+          ls -p  | grep -v '/$' | head -n-2 | xargs -d '\n' -r rm --
           rm -rf repodata
           rm -rf drpms
           createrepo . --zck
