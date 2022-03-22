@@ -6,13 +6,13 @@
 
 Name: thumbs
 Summary: A command line tool to manage the cached thumbnails of files.
-Version: 0.3.2
-Release: 2%{?dist}
+Version: 0.4.0
+Release: 1%{?dist}
 License: ASL 2.0
 Source0: https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
 URL: https://github.com/gourlaysama/thumbs
 
-BuildRequires: rust >= 1.52.0
+BuildRequires: rust >= 1.57.0
 BuildRequires: cargo
 
 %description
@@ -33,6 +33,9 @@ install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
 %doc README.md CHANGELOG.md
 
 %changelog
+* Tue Mar 22 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.0-1
+- thumbs 0.4.0
+
 * Fri Nov 05 2021 Antoine Gourlay <antoine@gourlay.fr> - 0.3.2-2
 - rebuild with correct build id
 
