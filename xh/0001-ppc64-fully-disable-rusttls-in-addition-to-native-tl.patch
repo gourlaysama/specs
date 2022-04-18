@@ -1,0 +1,284 @@
+From 0c0cb6cfe4728c3a663684bfaea50b15bb882a96 Mon Sep 17 00:00:00 2001
+From: Antoine Gourlay <antoine@gourlay.fr>
+Date: Mon, 18 Apr 2022 15:16:44 +0200
+Subject: [PATCH] ppc64: fully disable rusttls in addition to native-tls
+
+---
+ Cargo.lock  | 128 ----------------------------------------------------
+ Cargo.toml  |   2 +-
+ src/main.rs |  31 +------------
+ 3 files changed, 3 insertions(+), 158 deletions(-)
+
+diff --git a/Cargo.lock b/Cargo.lock
+index 1b9e384..a54f108 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -639,19 +639,6 @@ dependencies = [
+  "want",
+ ]
+ 
+-[[package]]
+-name = "hyper-rustls"
+-version = "0.23.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d87c48c02e0dc5e3b849a2041db3029fd066650f8f717c07bf8ed78ccb895cac"
+-dependencies = [
+- "http",
+- "hyper",
+- "rustls",
+- "tokio",
+- "tokio-rustls",
+-]
+-
+ [[package]]
+ name = "hyper-tls"
+ version = "0.5.0"
+@@ -1294,7 +1281,6 @@ dependencies = [
+  "http",
+  "http-body",
+  "hyper",
+- "hyper-rustls",
+  "hyper-tls",
+  "ipnet",
+  "js-sys",
+@@ -1306,39 +1292,19 @@ dependencies = [
+  "percent-encoding",
+  "pin-project-lite",
+  "proc-macro-hack",
+- "rustls",
+- "rustls-native-certs",
+- "rustls-pemfile 0.3.0",
+  "serde",
+  "serde_json",
+  "serde_urlencoded",
+  "tokio",
+  "tokio-native-tls",
+- "tokio-rustls",
+  "tokio-socks",
+  "url",
+  "wasm-bindgen",
+  "wasm-bindgen-futures",
+  "web-sys",
+- "webpki-roots",
+  "winreg",
+ ]
+ 
+-[[package]]
+-name = "ring"
+-version = "0.16.20"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3053cf52e236a3ed746dfc745aa9cacf1b791d846bdaf412f60a8d7d6e17c8fc"
+-dependencies = [
+- "cc",
+- "libc",
+- "once_cell",
+- "spin",
+- "untrusted",
+- "web-sys",
+- "winapi",
+-]
+-
+ [[package]]
+ name = "rpassword"
+ version = "5.0.1"
+@@ -1358,48 +1324,6 @@ dependencies = [
+  "semver",
+ ]
+ 
+-[[package]]
+-name = "rustls"
+-version = "0.20.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4fbfeb8d0ddb84706bc597a5574ab8912817c52a397f819e5b614e2265206921"
+-dependencies = [
+- "log",
+- "ring",
+- "sct",
+- "webpki",
+-]
+-
+-[[package]]
+-name = "rustls-native-certs"
+-version = "0.6.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "0167bac7a9f490495f3c33013e7722b53cb087ecbe082fb0c6387c96f634ea50"
+-dependencies = [
+- "openssl-probe",
+- "rustls-pemfile 1.0.0",
+- "schannel",
+- "security-framework",
+-]
+-
+-[[package]]
+-name = "rustls-pemfile"
+-version = "0.3.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1ee86d63972a7c661d1536fefe8c3c8407321c3df668891286de28abcd087360"
+-dependencies = [
+- "base64",
+-]
+-
+-[[package]]
+-name = "rustls-pemfile"
+-version = "1.0.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e7522c9de787ff061458fe9a829dc790a3f5b22dc571694fc5883f448b94d9a9"
+-dependencies = [
+- "base64",
+-]
+-
+ [[package]]
+ name = "ryu"
+ version = "1.0.5"
+@@ -1431,16 +1355,6 @@ dependencies = [
+  "winapi",
+ ]
+ 
+-[[package]]
+-name = "sct"
+-version = "0.7.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d53dcdb7c9f8158937a7981b48accfd39a43af418591a5d008c7b22b5e1b7ca4"
+-dependencies = [
+- "ring",
+- "untrusted",
+-]
+-
+ [[package]]
+ name = "security-framework"
+ version = "2.4.2"
+@@ -1558,12 +1472,6 @@ dependencies = [
+  "winapi",
+ ]
+ 
+-[[package]]
+-name = "spin"
+-version = "0.5.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "6e63cff320ae2c57904679ba7cb63280a3dc4613885beafb148ee7bf9aa9042d"
+-
+ [[package]]
+ name = "standback"
+ version = "0.2.17"
+@@ -1802,17 +1710,6 @@ dependencies = [
+  "tokio",
+ ]
+ 
+-[[package]]
+-name = "tokio-rustls"
+-version = "0.23.3"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4151fda0cf2798550ad0b34bcfc9b9dcc2a9d2471c895c68f3a8818e54f2389e"
+-dependencies = [
+- "rustls",
+- "tokio",
+- "webpki",
+-]
+-
+ [[package]]
+ name = "tokio-socks"
+ version = "0.5.1"
+@@ -1937,12 +1834,6 @@ version = "0.1.7"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "f14ee04d9415b52b3aeab06258a3f07093182b88ba0f9b8d203f211a7a7d41c7"
+ 
+-[[package]]
+-name = "untrusted"
+-version = "0.7.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a156c684c91ea7d62626509bce3cb4e1d9ed5c4d978f7b4352658f96a4c26b4a"
+-
+ [[package]]
+ name = "url"
+ version = "2.2.2"
+@@ -2079,25 +1970,6 @@ dependencies = [
+  "wasm-bindgen",
+ ]
+ 
+-[[package]]
+-name = "webpki"
+-version = "0.22.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f095d78192e208183081cc07bc5515ef55216397af48b873e5edcd72637fa1bd"
+-dependencies = [
+- "ring",
+- "untrusted",
+-]
+-
+-[[package]]
+-name = "webpki-roots"
+-version = "0.22.3"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "44d8de8415c823c8abd270ad483c6feeac771fad964890779f9a8cb24fbbc1bf"
+-dependencies = [
+- "webpki",
+-]
+-
+ [[package]]
+ name = "winapi"
+ version = "0.3.9"
+diff --git a/Cargo.toml b/Cargo.toml
+index 7ca8fae..520a06d 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -49,7 +49,7 @@ url = "2.2.2"
+ [dependencies.reqwest]
+ version = "0.11.10"
+ default-features = false
+-features = ["rustls-tls", "rustls-tls-webpki-roots", "rustls-tls-native-roots", "json", "multipart", "blocking", "socks", "cookies"]
++features = ["json", "multipart", "blocking", "socks", "cookies"]
+ 
+ [dependencies.syntect]
+ version = "4.4"
+diff --git a/src/main.rs b/src/main.rs
+index 7875cec..fe6d0f5 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -150,7 +150,6 @@ fn run(args: Cli) -> Result<i32> {
+ 
+     let mut client = Client::builder()
+         .http1_title_case_headers()
+-        .use_rustls_tls()
+         .http2_adaptive_window(true)
+         .redirect(reqwest::redirect::Policy::none())
+         .timeout(timeout)
+@@ -237,34 +236,8 @@ fn run(args: Cli) -> Result<i32> {
+             }
+         };
+ 
+-        if let Some(cert) = args.cert {
+-            if args.native_tls {
+-                // Unlike the --verify case this is advertised to not work, so it's
+-                // not an outright bug, but it's still imaginable that it'll start working
+-                warn("Client certificates are not supported for native-tls");
+-            }
+-
+-            let mut buffer = Vec::new();
+-            let mut file = File::open(&cert)
+-                .with_context(|| format!("Failed to open the cert file: {}", cert.display()))?;
+-            file.read_to_end(&mut buffer)
+-                .with_context(|| format!("Failed to read the cert file: {}", cert.display()))?;
+-
+-            if let Some(cert_key) = args.cert_key {
+-                buffer.push(b'\n');
+-
+-                let mut file = File::open(&cert_key).with_context(|| {
+-                    format!("Failed to open the cert key file: {}", cert_key.display())
+-                })?;
+-                file.read_to_end(&mut buffer).with_context(|| {
+-                    format!("Failed to read the cert key file: {}", cert_key.display())
+-                })?;
+-            }
+-
+-            // We may fail here if we can't parse it but also if we don't have the key
+-            let identity = reqwest::Identity::from_pem(&buffer)
+-                .context("Failed to load the cert/cert key files")?;
+-            client = client.identity(identity);
++        if let Some(_cert) = args.cert {
++            return Err(anyhow!("Client certificates are not supported for native-tls-only builds"));
+         };
+     }
+ 
+-- 
+2.35.1
+
