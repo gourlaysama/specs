@@ -12,7 +12,7 @@ License: MIT
 Source0: https://github.com/ducaale/xh/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/xh
 
-Patch0: 0001-fully-disable-rusttls-in-addition-to-native-tls.patch
+Patch0: 0001-ppc64-fully-disable-rusttls-in-addition-to-native-tl.patch
 
 Provides: ht-rust%{?_isa} = %{version}-%{release}
 Obsoletes: ht-rust <= 0.6.0-2
