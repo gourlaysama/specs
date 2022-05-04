@@ -8,7 +8,7 @@
 
 Name: girouette
 Summary: A command line tool that displays the current weather in the terminal.
-Version: 0.7.0
+Version: 0.7.1
 Release: 1%{?dist}
 License: MIT or ASL 2.0
 Source0: https://github.com/gourlaysama/girouette/archive/v%{version}.tar.gz
@@ -58,6 +58,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %{_datadir}/zsh/site-functions/_girouette
 
 %changelog
+* Wed May 04 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.1-1
+- girouette 0.7.1
+
 * Tue Mar 08 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.0-1
 - girouette 0.7.0
 
