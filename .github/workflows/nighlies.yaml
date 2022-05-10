@@ -46,6 +46,7 @@ jobs:
       - name: Publish to gh-pages
         if: steps.check.outputs.changed
         run: |
+          git config --global --add safe.directory "$GITHUB_WORKSPACE" # workaround, see actions/checkout#766
           git config user.name github-actions
           git config user.email github-actions@github.com
           git add .
