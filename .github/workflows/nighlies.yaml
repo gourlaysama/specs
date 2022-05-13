@@ -19,26 +19,26 @@ jobs:
           fetch-depth: 0
       - name: Get latest nightly
         run: |
-          wget 'https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly-fedora35.rpm'
+          wget 'https://github.com/wez/wezterm/releases/download/nightly/wezterm-nightly-fedora36.rpm'
       - name: Check if updated
         id: check
         shell: bash
         run: |
-          old=$(dnf repoquery --nevra --latest-limit 1 --repofrompath repo,repo/wezterm/fedora/35/x86_64/ --repo repo wezterm)
-          new=$(rpm --qf '%{NAME}-%{EPOCHNUM}:%{VERSION}-%{RELEASE}.%{ARCH}\n' -q wezterm-nightly-fedora35.rpm)
+          old=$(dnf repoquery --nevra --latest-limit 1 --repofrompath repo,repo/wezterm/fedora/36/x86_64/ --repo repo wezterm)
+          new=$(rpm --qf '%{NAME}-%{EPOCHNUM}:%{VERSION}-%{RELEASE}.%{ARCH}\n' -q wezterm-nightly-fedora36.rpm)
           echo "old: $old"
           echo "new: $new"
           if [ "$old" = "$new" ]; then
-            rm wezterm-nightly-fedora35.rpm
+            rm wezterm-nightly-fedora36.rpm
           else
             echo '::set-output name=changed::true'
-            new=$(rpm -q wezterm-nightly-fedora35.rpm)
-            mv wezterm-nightly-fedora35.rpm "repo/wezterm/fedora/35/x86_64/$new.rpm"
+            new=$(rpm -q wezterm-nightly-fedora36.rpm)
+            mv wezterm-nightly-fedora36.rpm "repo/wezterm/fedora/36/x86_64/$new.rpm"
           fi
       - name: Rebuild RPM repository
         if: steps.check.outputs.changed
         run: |
-          cd repo/wezterm/fedora/35/x86_64/
+          cd repo/wezterm/fedora/36/x86_64/
           ls -p  | grep -v '/$' | head -n-2 | xargs -d '\n' -r rm --
           rm -rf repodata
           rm -rf drpms
