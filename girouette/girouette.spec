@@ -9,7 +9,7 @@
 Name: girouette
 Summary: A command line tool that displays the current weather in the terminal.
 Version: 0.7.2
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: MIT or ASL 2.0
 Source0: https://github.com/gourlaysama/girouette/archive/v%{version}.tar.gz
 URL: https://github.com/gourlaysama/girouette
@@ -18,7 +18,11 @@ BuildRequires: rust >= 1.57.0
 BuildRequires: cargo
 BuildRequires: pkgconfig(dbus-1)
 BuildRequires: pkgconfig(openssl)
+
+# No pandoc there yet...
+%if 0%{?rhel} < 9
 BuildRequires: /usr/bin/pandoc
+%endif
 
 %description
 %{summary}
@@ -29,7 +33,9 @@ BuildRequires: /usr/bin/pandoc
 %build
 RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
 
+%if 0%{?rhel} < 9
 pandoc -s --to man doc/girouette.1.md -o girouette.1
+%endif
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
@@ -39,13 +45,20 @@ install -Dpm0644 -T target/release/build/%{name}-*/out/girouette.bash \
 %if 0%{?rhel}
 mkdir -p %{buildroot}%{_datadir}/fish/vendor_completions.d
 mkdir -p %{buildroot}%{_datadir}/zsh/site-functions
+
+%if 0%{?rhel} < 9
+mkdir -p %{buildroot}%{_mandir}/man1/
+%endif
 %endif
 
 install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
   target/release/build/%{name}-*/out/girouette.fish
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
   target/release/build/%{name}-*/out/_girouette
+
+%if 0%{?rhel} < 9
 install -Dpvm0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
+%endif
 
 %files
 %{_bindir}/%{name}
@@ -60,9 +73,16 @@ install -Dpvm0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
 %dir %{_datadir}/zsh
 %dir %{_datadir}/zsh/site-functions
 %{_datadir}/zsh/site-functions/_girouette
+
+%if 0%{?rhel} < 9
 %{_mandir}/man1/%{name}.1*
+%endif
 
 %changelog
+* Fri May 13 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.2-2
+- fix EPEL/CentOS build
+- disable man page generation on CentOS Stream 9
+
 * Fri May 13 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.2-1
 - girouette 0.7.2
 - package man page
