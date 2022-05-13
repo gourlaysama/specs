@@ -8,7 +8,7 @@
 
 Name: girouette
 Summary: A command line tool that displays the current weather in the terminal.
-Version: 0.7.1
+Version: 0.7.2
 Release: 1%{?dist}
 License: MIT or ASL 2.0
 Source0: https://github.com/gourlaysama/girouette/archive/v%{version}.tar.gz
@@ -18,6 +18,7 @@ BuildRequires: rust >= 1.57.0
 BuildRequires: cargo
 BuildRequires: pkgconfig(dbus-1)
 BuildRequires: pkgconfig(openssl)
+BuildRequires: /usr/bin/pandoc
 
 %description
 %{summary}
@@ -27,6 +28,8 @@ BuildRequires: pkgconfig(openssl)
 
 %build
 RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
+
+pandoc -s --to man doc/girouette.1.md -o girouette.1
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
@@ -42,6 +45,7 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
   target/release/build/%{name}-*/out/girouette.fish
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
   target/release/build/%{name}-*/out/_girouette
+install -Dpvm0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
 
 %files
 %{_bindir}/%{name}
@@ -56,8 +60,13 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
 %dir %{_datadir}/zsh
 %dir %{_datadir}/zsh/site-functions
 %{_datadir}/zsh/site-functions/_girouette
+%{_mandir}/man1/%{name}.1*
 
 %changelog
+* Fri May 13 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.2-1
+- girouette 0.7.2
+- package man page
+
 * Wed May 04 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.1-1
 - girouette 0.7.1
 
