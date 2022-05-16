@@ -7,7 +7,7 @@
 Name:           thumbs
 Summary:        A command line tool to manage the cached thumbnails of files.
 Version:        0.4.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        ASL 2.0
 Source0:        https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
 URL:            https://github.com/gourlaysama/thumbs
@@ -23,7 +23,9 @@ Summary:        Thumbs extention for nautilus
 BuildArch:      noarch
 Requires:       %{name} = %{version}-%{release}
 Requires:       nautilus-python
+%if 0%{?rhel} > 7
 Supplements:    (thumbs and nautilus)
+%endif
 	
 %description nautilus
 %{summary}
@@ -47,6 +49,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/na
 %{_datadir}/nautilus-python/extensions/%{name}-nautilus.py*
 
 %changelog
+* Mon May 16 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.2-2
+- fix EPEL 7 build
+
 * Mon May 16 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.2-1
 - thumbs 0.4.2
 
