@@ -38,6 +38,11 @@ RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
+
+%if 0%{?rhel} < 8
+mkdir -p %{buildroot}%{_datadir}/nautilus-python/extensions/
+%endif
+
 install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/nautilus/%{name}-nautilus.py
 
 %files
