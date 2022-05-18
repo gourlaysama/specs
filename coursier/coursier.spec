@@ -8,11 +8,11 @@
 
 Name: coursier
 Summary: Pure Scala Artifact Fetching
-Version: 2.1.0~M5
+Version: 2.1.0~M6
 Release: 1%{?dist}
 License: ASL 2.0
 URL: https://github.com/coursier/coursier
-Source0: https://github.com/coursier/coursier/archive/refs/tags/v2.1.0-M5.tar.gz
+Source0: https://github.com/coursier/coursier/archive/refs/tags/v2.1.0-M6.tar.gz
 Source1: https://github.com/dirs-dev/directories-jvm/archive/%{directories_jvm_commit}.tar.gz
 Source2: https://github.com/alexarchambault/windows-ansi/archive/refs/tags/v%{windows_ansi_version}.tar.gz
 
@@ -27,7 +27,7 @@ BuildRequires: zlib-devel
 %{summary}
 
 %prep
-%setup -q -b0 -n coursier-2.1.0-M5
+%setup -q -b0 -n coursier-2.1.0-M6
 %patch0 -p1
 
 cd modules
@@ -77,6 +77,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions
 %{_datadir}/zsh/site-functions/_cs
 
 %changelog
+* Wed May 18 2022 Antoine Gourlay <antoine@gourlay.fr> - 2.1.0~M6-1
+- coursier 2.1.0~M6
+
 * Mon Feb 07 2022 Antoine Gourlay <antoine@gourlay.fr> - 2.1.0~M5-1
 - coursier 2.1.0-M5
 
