@@ -6,8 +6,8 @@
 
 Name: xh
 Summary: Yet another HTTPie clone in Rust
-Version: 0.16.0
-Release: 2%{?dist}
+Version: 0.16.1
+Release: 1%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/xh/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/xh
@@ -70,6 +70,9 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 %{_datadir}/zsh/site-functions/_xh
 
 %changelog
+* Sun May 22 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.16.1-1
+- xh 0.16.1
+
 * Mon Apr 18 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.16.0-2
 - fix ppc64le build
 
