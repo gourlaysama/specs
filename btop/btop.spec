@@ -4,7 +4,7 @@
 
 Name: btop
 Summary: Resource monitor that shows usage and stats for processor, memory, disks, network and processes.
-Version: 1.2.6
+Version: 1.2.7
 Release: 1%{?dist}
 License: ASL 2.0
 Source0: https://github.com/aristocratos/btop/archive/v%{version}.tar.gz
@@ -17,6 +17,7 @@ BuildRequires: gcc-toolset-11-annobin-plugin-gcc
 %else
 BuildRequires: gcc-c++
 %endif
+BuildRequires: desktop-file-utils
 
 %description
 %{summary}
@@ -38,14 +39,25 @@ install -Dpsm755 bin/%{name} %{buildroot}%{_bindir}/%{name}
 mkdir -p %{buildroot}%{_datadir}/%{name}/themes
 install -Dpm0644 -t %{buildroot}%{_datadir}/%{name}/themes themes/*
 
+desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{name}.desktop
+install -Dpm0644 Img/icon.png %{buildroot}%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+install -Dpm0644 Img/icon.svg %{buildroot}%{_datadir}/icons/hicolor/symbolic/apps/%{name}-symbolic.svg
+
 
 %files
 %{_bindir}/%{name}
 %{_datadir}/%{name}
+%{_datadir}/applications/btop.desktop
+%{_datadir}/icons/hicolor/48x48/apps/%{name}.png
+%{_datadir}/icons/hicolor/symbolic/apps/%{name}-symbolic.svg
 %license LICENSE
 %doc README.md CHANGELOG.md
 
 %changelog
+* Mon May 30 2022 Antoine Gourlay <antoine@gourlay.fr> - 1.2.7-1
+- btop 1.2.7
+- package desktop file and icon
+
 * Wed Apr 13 2022 Antoine Gourlay <antoine@gourlay.fr> - 1.2.6-1
 - btop 1.2.6
 
