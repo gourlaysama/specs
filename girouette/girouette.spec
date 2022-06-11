@@ -8,8 +8,8 @@
 
 Name: girouette
 Summary: A command line tool that displays the current weather in the terminal.
-Version: 0.7.2
-Release: 2%{?dist}
+Version: 0.7.3
+Release: 1%{?dist}
 License: MIT or ASL 2.0
 Source0: https://github.com/gourlaysama/girouette/archive/v%{version}.tar.gz
 URL: https://github.com/gourlaysama/girouette
@@ -79,6 +79,9 @@ install -Dpvm0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
 %endif
 
 %changelog
+* Sat Jun 11 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.3-1
+- girouette 0.7.3
+
 * Fri May 13 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.7.2-2
 - fix EPEL/CentOS build
 - disable man page generation on CentOS Stream 9
