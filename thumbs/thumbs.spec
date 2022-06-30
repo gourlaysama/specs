@@ -6,7 +6,7 @@
 
 Name:           thumbs
 Summary:        A command line tool to manage the cached thumbnails of files.
-Version:        0.4.3
+Version:        0.4.4
 Release:        1%{?dist}
 License:        ASL 2.0
 Source0:        https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
@@ -14,6 +14,11 @@ URL:            https://github.com/gourlaysama/thumbs
 
 BuildRequires:  rust >= 1.57.0
 BuildRequires:  cargo
+
+# No pandoc there yet...
+%if 0%{?rhel} < 9
+BuildRequires: /usr/bin/pandoc
+%endif
 
 %description
 %{summary}
@@ -36,8 +41,20 @@ Supplements:    (thumbs and nautilus)
 %build
 RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
 
+%if 0%{?rhel} < 9
+pandoc -s --to man doc/thumbs.1.md -o thumbs.1
+%endif
+
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
+
+%if 0%{?rhel} < 9
+mkdir -p %{buildroot}%{_mandir}/man1/
+%endif
+
+%if 0%{?rhel} < 9
+install -Dpvm0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
+%endif
 
 %if 0%{?rhel} < 8
 mkdir -p %{buildroot}%{_datadir}/nautilus-python/extensions/
@@ -49,11 +66,18 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/na
 %{_bindir}/%{name}
 %license LICENSE NOTICE
 %doc README.md CHANGELOG.md
+%if 0%{?rhel} < 9
+%{_mandir}/man1/%{name}.1*
+%endif
 
 %files nautilus
 %{_datadir}/nautilus-python/extensions/%{name}-nautilus.py*
 
 %changelog
+* Thu Jun 30 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.4-1
+- thumbs 0.4.4
+- package man page
+
 * Wed Jun 22 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.3-1
 - thumbs 0.4.3
 
