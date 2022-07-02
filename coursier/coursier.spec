@@ -9,7 +9,7 @@
 Name: coursier
 Summary: Pure Scala Artifact Fetching
 Version: 2.1.0~M6
-Release: 1%{?dist}
+Release: 2%{?dist}
 License: ASL 2.0
 URL: https://github.com/coursier/coursier
 Source0: https://github.com/coursier/coursier/archive/refs/tags/v2.1.0-M6.tar.gz
@@ -77,6 +77,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions
 %{_datadir}/zsh/site-functions/_cs
 
 %changelog
+* Sat Jul 02 2022 Antoine Gourlay <antoine@gourlay.fr> - 2.1.0~M6-2
+- fix build reporting wrong version
+
 * Wed May 18 2022 Antoine Gourlay <antoine@gourlay.fr> - 2.1.0~M6-1
 - coursier 2.1.0~M6
 
