@@ -6,7 +6,7 @@
 
 Name:           thumbs
 Summary:        A command line tool to manage the cached thumbnails of files.
-Version:        0.4.4
+Version:        0.4.5
 Release:        1%{?dist}
 License:        ASL 2.0
 Source0:        https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
@@ -74,6 +74,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/na
 %{_datadir}/nautilus-python/extensions/%{name}-nautilus.py*
 
 %changelog
+* Tue Jul 19 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.5-1
+- thumbs 0.4.5
+
 * Thu Jun 30 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.4-1
 - thumbs 0.4.4
 - package man page
