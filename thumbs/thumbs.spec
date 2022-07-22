@@ -7,7 +7,7 @@
 Name:           thumbs
 Summary:        A command line tool to manage the cached thumbnails of files.
 Version:        0.4.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        ASL 2.0
 Source0:        https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
 URL:            https://github.com/gourlaysama/thumbs
@@ -47,14 +47,26 @@ pandoc -s --to man doc/thumbs.1.md -o thumbs.1
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
+install -Dpm0644 -T target/release/build/%{name}-*/out/thumbs.bash \
+  %{buildroot}%{_datadir}/bash-completion/completions/thumbs
+
+%if 0%{?rhel}
+mkdir -p %{buildroot}%{_datadir}/fish/vendor_completions.d
+mkdir -p %{buildroot}%{_datadir}/zsh/site-functions
 
 %if 0%{?rhel} < 9
 mkdir -p %{buildroot}%{_mandir}/man1/
+%endif
 %endif
 
 %if 0%{?rhel} < 9
 install -Dpvm0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
 %endif
+
+install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
+  target/release/build/%{name}-*/out/thumbs.fish
+install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
+  target/release/build/%{name}-*/out/_thumbs
 
 %if 0%{?rhel} < 8
 mkdir -p %{buildroot}%{_datadir}/nautilus-python/extensions/
@@ -66,6 +78,16 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/na
 %{_bindir}/%{name}
 %license LICENSE NOTICE
 %doc README.md CHANGELOG.md
+%dir %{_datadir}/bash-completion
+%dir %{_datadir}/bash-completion/completions
+%{_datadir}/bash-completion/completions/thumbs
+%dir %{_datadir}/fish
+%dir %{_datadir}/fish/vendor_completions.d
+%{_datadir}/fish/vendor_completions.d/thumbs.fish
+%dir %{_datadir}/zsh
+%dir %{_datadir}/zsh/site-functions
+%{_datadir}/zsh/site-functions/_thumbs
+
 %if 0%{?rhel} < 9
 %{_mandir}/man1/%{name}.1*
 %endif
@@ -74,6 +96,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/na
 %{_datadir}/nautilus-python/extensions/%{name}-nautilus.py*
 
 %changelog
+* Fri Jul 22 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.5-2
+- package shell completions
+
 * Tue Jul 19 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.5-1
 - thumbs 0.4.5
 
