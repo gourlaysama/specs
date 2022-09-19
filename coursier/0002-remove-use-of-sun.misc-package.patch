@@ -1,0 +1,37 @@
+From 2ed58502495bba75521f195bec531a79a36092a9 Mon Sep 17 00:00:00 2001
+From: Antoine Gourlay <antoine@gourlay.fr>
+Date: Mon, 19 Sep 2022 23:25:40 +0200
+Subject: [PATCH] remove use of sun.misc package
+
+---
+ .../main/java/coursier/cache/internal/SigWinch.java    | 10 ----------
+ 1 file changed, 10 deletions(-)
+
+diff --git a/modules/cache/jvm/src/main/java/coursier/cache/internal/SigWinch.java b/modules/cache/jvm/src/main/java/coursier/cache/internal/SigWinch.java
+index 6ff7d76..e85bb0c 100644
+--- a/modules/cache/jvm/src/main/java/coursier/cache/internal/SigWinch.java
++++ b/modules/cache/jvm/src/main/java/coursier/cache/internal/SigWinch.java
+@@ -1,20 +1,10 @@
+ package coursier.cache.internal;
+ 
+-import sun.misc.Signal;
+-import sun.misc.SignalHandler;
+ 
+ public final class SigWinch {
+ 
+   public static void addHandler(Runnable runnable) {
+ 
+-    SignalHandler handler = new SignalHandler() {
+-      @Override
+-      public void handle(Signal arg0) {
+-        runnable.run();
+-      }
+-    };
+-
+-    Signal.handle(new Signal("WINCH"), handler);
+   }
+ 
+ }
+-- 
+2.37.3
+

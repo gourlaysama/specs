@@ -17,6 +17,7 @@ Source1: https://github.com/dirs-dev/directories-jvm/archive/%{directories_jvm_c
 Source2: https://github.com/alexarchambault/windows-ansi/archive/refs/tags/v%{windows_ansi_version}.tar.gz
 
 Patch0: 0001-no-git.patch
+Patch1: 0002-remove-use-of-sun.misc-package.patch
 
 BuildRequires: java-1.8.0-openjdk-devel
 BuildRequires: ncurses
@@ -29,6 +30,7 @@ BuildRequires: zlib-devel
 %prep
 %setup -q -b0 -n coursier-2.1.0-M7
 %patch0 -p1
+%patch1 -p1
 
 cd modules
 
@@ -49,6 +51,7 @@ mkdir -p modules/tests/handmade-metadata/data
 mkdir -p out/completions
 mkdir utils
 
+export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 ./mill -i copyJarLaunchers
 
 mv artifacts/* utils/
