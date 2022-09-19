@@ -16,7 +16,7 @@ index 51a27d0..b3c10f4 100644
  
  def commitHash = T {
 -  os.proc("git", "rev-parse", "HEAD").call().out.text.trim
-+  "85658ef6c66e28dce159828ddbfc6284a4dbeaf2"
++  "1df62c141ba696a403ca34cbfbe871a318db639a"
  }
  
 -lazy val latestTaggedVersion = os.proc("git", "describe", "--abbrev=0", "--tags", "--match", "v*")
@@ -39,7 +39,7 @@ index 51a27d0..b3c10f4 100644
 -    s"${latestTaggedVersion.stripPrefix("v")}-$commitsSinceTaggedVersion-$gitHash-SNAPSHOT"
 -  }
 -}
-+lazy val latestTaggedVersion = "v2.1.0-M6"
++lazy val latestTaggedVersion = "v2.1.0-M7"
 +lazy val buildVersion = latestTaggedVersion.stripPrefix("v")
  
  trait CoursierPublishModule extends PublishModule with JavaModule {
