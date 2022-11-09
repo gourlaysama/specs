@@ -6,13 +6,11 @@
 
 Name: xh
 Summary: Yet another HTTPie clone in Rust
-Version: 0.16.1
+Version: 0.17.0
 Release: 1%{?dist}
 License: MIT
 Source0: https://github.com/ducaale/xh/archive/v%{version}.tar.gz
 URL: https://github.com/ducaale/xh
-
-Patch0: 0001-ppc64-fully-disable-rusttls-in-addition-to-native-tl.patch
 
 Provides: ht-rust%{?_isa} = %{version}-%{release}
 Obsoletes: ht-rust <= 0.6.0-2
@@ -26,12 +24,9 @@ BuildRequires: pkgconfig(openssl)
 
 %prep
 %setup -q -n xh-%{version}
-%ifarch ppc64le
-%patch0 -p1
-%endif
 
 %build
-RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release --features native-tls
+RUSTFLAGS="%{rust_flags}" CARGO_PROFILE_RELEASE_LTO="true" cargo build --release --no-default-features --features native-tls,online-tests
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
@@ -70,6 +65,10 @@ install -Dpm0644 -t %{buildroot}%{_mandir}/man1 \
 %{_datadir}/zsh/site-functions/_xh
 
 %changelog
+* Wed Nov 09 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.17.0-1
+- xh 0.17.0
+- remove ppc64le workaround (no longer needed)
+
 * Sun May 22 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.16.1-1
 - xh 0.16.1
 
