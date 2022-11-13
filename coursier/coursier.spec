@@ -8,7 +8,7 @@
 
 Name: coursier
 Summary: Pure Scala Artifact Fetching
-Version: 2.1.0~M7
+Version: 2.1.0~RC1
 Release: 1%{?dist}
 License: ASL 2.0
 URL: https://github.com/coursier/coursier
@@ -80,6 +80,9 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions ./out/completions
 %{_datadir}/zsh/site-functions/_cs
 
 %changelog
+* Sun Nov 13 2022 Antoine Gourlay <antoine@gourlay.fr> - 2.1.0~RC1-1
+- coursier 2.1.0-RC1
+
 * Mon Sep 19 2022 Antoine Gourlay <antoine@gourlay.fr> - 2.1.0~M7-1
 - coursier 2.1.0~M7
 
