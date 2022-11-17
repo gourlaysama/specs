@@ -12,7 +12,7 @@ Version: 2.1.0~RC2
 Release: 1%{?dist}
 License: ASL 2.0
 URL: https://github.com/coursier/coursier
-Source0: https://github.com/coursier/coursier/archive/refs/tags/v2.1.0-M7.tar.gz
+Source0: https://github.com/coursier/coursier/archive/refs/tags/v2.1.0-RC2.tar.gz
 Source1: https://github.com/dirs-dev/directories-jvm/archive/%{directories_jvm_commit}.tar.gz
 Source2: https://github.com/alexarchambault/windows-ansi/archive/refs/tags/v%{windows_ansi_version}.tar.gz
 
@@ -28,7 +28,7 @@ BuildRequires: zlib-devel
 %{summary}
 
 %prep
-%setup -q -b0 -n coursier-2.1.0-M7
+%setup -q -b0 -n coursier-2.1.0-RC2
 %patch0 -p1
 %patch1 -p1
 
