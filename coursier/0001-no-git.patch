@@ -1,6 +1,6 @@
-From 3d2c93625bc025878681ee92d3f5d07fd8e52a7a Mon Sep 17 00:00:00 2001
+From 20b54fc4fdf132b2400855d8c6a88785ef8f7e92 Mon Sep 17 00:00:00 2001
 From: Antoine Gourlay <antoine@gourlay.fr>
-Date: Mon, 7 Feb 2022 22:48:47 +0100
+Date: Thu, 17 Nov 2022 14:39:00 +0100
 Subject: [PATCH] no git
 
 ---
@@ -8,10 +8,10 @@ Subject: [PATCH] no git
  1 file changed, 3 insertions(+), 21 deletions(-)
 
 diff --git a/project/modules/shared.sc b/project/modules/shared.sc
-index 51a27d0..b3c10f4 100644
+index 5b14871..301c799 100644
 --- a/project/modules/shared.sc
 +++ b/project/modules/shared.sc
-@@ -8,29 +8,11 @@ trait CsMima extends Mima {
+@@ -13,29 +13,11 @@ trait CsMima extends Mima {
  }
  
  def commitHash = T {
@@ -42,8 +42,8 @@ index 51a27d0..b3c10f4 100644
 +lazy val latestTaggedVersion = "v2.1.0-RC2"
 +lazy val buildVersion = latestTaggedVersion.stripPrefix("v")
  
- trait CoursierPublishModule extends PublishModule with JavaModule {
-   import mill.scalalib.publish._
+ trait PublishLocalNoFluff extends PublishModule {
+   def emptyZip = T {
 -- 
-2.36.1
+2.38.1
 
