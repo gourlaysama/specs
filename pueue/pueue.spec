@@ -12,7 +12,7 @@ License: MIT
 Source0: https://github.com/Nukesor/pueue/archive/v%{version}.tar.gz
 URL: https://github.com/Nukesor/pueue
 
-BuildRequires: rust >= 1.54.0
+BuildRequires: rust >= 1.65.0
 BuildRequires: cargo
 BuildRequires: systemd-rpm-macros
 
