@@ -1,6 +1,6 @@
-From 20b54fc4fdf132b2400855d8c6a88785ef8f7e92 Mon Sep 17 00:00:00 2001
+From a74fb1bb4b149c96d8da731cb10a6437b0ce5b4d Mon Sep 17 00:00:00 2001
 From: Antoine Gourlay <antoine@gourlay.fr>
-Date: Thu, 17 Nov 2022 14:39:00 +0100
+Date: Thu, 29 Dec 2022 14:30:33 +0100
 Subject: [PATCH] no git
 
 ---
@@ -8,15 +8,15 @@ Subject: [PATCH] no git
  1 file changed, 3 insertions(+), 21 deletions(-)
 
 diff --git a/project/modules/shared.sc b/project/modules/shared.sc
-index 5b14871..301c799 100644
+index 008d219..d1e1d6e 100644
 --- a/project/modules/shared.sc
 +++ b/project/modules/shared.sc
-@@ -13,29 +13,11 @@ trait CsMima extends Mima {
+@@ -10,29 +10,11 @@ trait CsMima extends Mima {
  }
  
  def commitHash = T {
 -  os.proc("git", "rev-parse", "HEAD").call().out.text.trim
-+  "2868899e8296d46df2ccb3851d742c1cfb750ca1"
++  "5ce0a0330f3ebc603f1d523b7886ef9b5425cb09"
  }
  
 -lazy val latestTaggedVersion = os.proc("git", "describe", "--abbrev=0", "--tags", "--match", "v*")
@@ -39,7 +39,7 @@ index 5b14871..301c799 100644
 -    s"${latestTaggedVersion.stripPrefix("v")}-$commitsSinceTaggedVersion-$gitHash-SNAPSHOT"
 -  }
 -}
-+lazy val latestTaggedVersion = "v2.1.0-RC2"
++lazy val latestTaggedVersion = "v2.1.0-RC4"
 +lazy val buildVersion = latestTaggedVersion.stripPrefix("v")
  
  trait PublishLocalNoFluff extends PublishModule {
