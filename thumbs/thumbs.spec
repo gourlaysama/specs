@@ -6,31 +6,26 @@
 
 Name:           thumbs
 Summary:        A command line tool to manage the cached thumbnails of files.
-Version:        0.4.5
-Release:        2%{?dist}
+Version:        0.5.2
+Release:        1%{?dist}
 License:        ASL 2.0
 Source0:        https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
 URL:            https://github.com/gourlaysama/thumbs
 
-BuildRequires:  rust >= 1.57.0
+BuildRequires:  rust >= 1.87.0
 BuildRequires:  cargo
-
-# No pandoc there yet...
-%if 0%{?rhel} < 9
-BuildRequires: /usr/bin/pandoc
-%endif
+BuildRequires:  systemd-rpm-macros
+BuildRequires:  /usr/bin/pandoc
 
 %description
 %{summary}
 
 %package nautilus
-Summary:        Thumbs extention for nautilus
+Summary:        Thumbs extension for nautilus
 BuildArch:      noarch
 Requires:       %{name} = %{version}-%{release}
 Requires:       nautilus-python
-%if 0%{?rhel} > 7
-Supplements:    (thumbs and nautilus)
-%endif
+Supplements:    (%{name} and nautilus)
 	
 %description nautilus
 %{summary}
@@ -40,39 +35,33 @@ Supplements:    (thumbs and nautilus)
 
 %build
 RUSTFLAGS="%{rust_flags}" BUILD_ID="%{release}" cargo build --release
-
-%if 0%{?rhel} < 9
-pandoc -s --to man doc/thumbs.1.md -o thumbs.1
-%endif
+cargo xtask gen-completions
+pandoc -s --to man doc/%{name}.1.md -o "%{name}.1"
 
 %install
 install -Dpsm755 target/release/%{name} %{buildroot}%{_bindir}/%{name}
-install -Dpm0644 -T target/release/build/%{name}-*/out/thumbs.bash \
-  %{buildroot}%{_datadir}/bash-completion/completions/thumbs
+install -Dpm0644 -T extra/complete/%{name}.bash \
+  %{buildroot}%{_datadir}/bash-completion/completions/%{name}
 
 %if 0%{?rhel}
 mkdir -p %{buildroot}%{_datadir}/fish/vendor_completions.d
 mkdir -p %{buildroot}%{_datadir}/zsh/site-functions
-
-%if 0%{?rhel} < 9
 mkdir -p %{buildroot}%{_mandir}/man1/
 %endif
-%endif
 
-%if 0%{?rhel} < 9
+
 install -Dpvm0644 -t %{buildroot}%{_mandir}/man1/ %{name}.1
-%endif
-
 install -Dpm0644 -t %{buildroot}%{_datadir}/fish/vendor_completions.d \
-  target/release/build/%{name}-*/out/thumbs.fish
+  extra/complete/%{name}.fish
 install -Dpm0644 -t %{buildroot}%{_datadir}/zsh/site-functions \
-  target/release/build/%{name}-*/out/_thumbs
+  extra/complete/_%{name}
 
-%if 0%{?rhel} < 8
 mkdir -p %{buildroot}%{_datadir}/nautilus-python/extensions/
-%endif
 
 install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/nautilus/%{name}-nautilus.py
+
+install -Dpm0644 -t %{buildroot}%{_userunitdir} extra/systemd-user/thumbnail-cleanup.service
+install -Dpm0644 -t %{buildroot}%{_userunitdir} extra/systemd-user/thumbnail-cleanup.timer
 
 %files
 %{_bindir}/%{name}
@@ -87,15 +76,19 @@ install -Dpm0644 -t %{buildroot}%{_datadir}/nautilus-python/extensions/ extra/na
 %dir %{_datadir}/zsh
 %dir %{_datadir}/zsh/site-functions
 %{_datadir}/zsh/site-functions/_thumbs
-
-%if 0%{?rhel} < 9
-%{_mandir}/man1/%{name}.1*
-%endif
+%{_mandir}/man1/thumbs.1*
+%{_userunitdir}/thumbnail-cleanup.service
+%{_userunitdir}/thumbnail-cleanup.timer
 
 %files nautilus
-%{_datadir}/nautilus-python/extensions/%{name}-nautilus.py*
+%{_datadir}/nautilus-python/extensions/thumbs-nautilus.py*
 
 %changelog
+* Mon May 18 2026 Antoine Gourlay <antoine@gourlay.fr> - 0.5.2-1
+- thumbs 0.5.2
+- update minimum rust version to 1.87
+- add systemd user service & timer (disabled by default)
+
 * Fri Jul 22 2022 Antoine Gourlay <antoine@gourlay.fr> - 0.4.5-2
 - package shell completions
 
