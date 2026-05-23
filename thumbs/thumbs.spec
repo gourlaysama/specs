@@ -7,7 +7,7 @@
 Name:           thumbs
 Summary:        A command line tool to manage the cached thumbnails of files.
 Version:        0.5.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 License:        ASL 2.0
 Source0:        https://github.com/gourlaysama/thumbs/archive/v%{version}.tar.gz
 URL:            https://github.com/gourlaysama/thumbs
@@ -83,7 +83,18 @@ install -Dpm0644 -t %{buildroot}%{_userunitdir} extra/systemd-user/thumbnail-cle
 %files nautilus
 %{_datadir}/nautilus-python/extensions/thumbs-nautilus.py*
 
+%post
+%systemd_user_post thumbnail-cleanup.service
+%systemd_user_post thumbnail-cleanup.timer
+
+%preun
+%systemd_user_preun thumbnail-cleanup.service
+%systemd_user_preun thumbnail-cleanup.timer
+
 %changelog
+* Sat May 23 2026 Antoine Gourlay <antoine@gourlay.fr> - 0.5.2-2
+- properly reload thumbnail-cleanup.(timer/service) on (un)install
+
 * Mon May 18 2026 Antoine Gourlay <antoine@gourlay.fr> - 0.5.2-1
 - thumbs 0.5.2
 - update minimum rust version to 1.87
